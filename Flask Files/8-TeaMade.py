@@ -32,33 +32,33 @@ def displayteamade():
       d11 = "'2019-07-02'" #last years end date
 
       #[TM TODAY]
-      val = "TMTABLE.TM_VAL "
-      tab = "TMTABLE"
+      val = "TMTENTRY.TM_VAL "
+      tab = "TMENTRY"
       cur.execute(f'''select {val} from {tab} where date = {d1} ''')
       rv = cur.fetchall()
 
       #[TM TODATE]
-      val1 = "sum(TMTABLE.TM_VAL)"
-      tab1 = "TMTABLE"
+      val1 = "sum(TMENTRY.TM_VAL)"
+      tab1 = "TMENTRY"
       cur1.execute(f'''select {val1} from {tab1} where DATE >= {d0} AND DATE <= {d1} ''')
       rv1 = cur1.fetchall()
 
       #[TM TODATE LAST YEAR]
-      val2 = "sum(TMTABLE.TM_VAL)"
-      tab2 = "TMTABLE"
+      val2 = "sum(TMENTRY.TM_VAL)"
+      tab2 = "TMENTRY"
       cur2.execute(f'''select {val2} from {tab2} where DATE >= {d00} AND DATE <= {d1} ''')
       rv2 = cur2.fetchall()
 
       #[RECOVERY % TODAY
-      val3 = ((SUM(FIELDENTRY.GL_VAL))/(TMTABLE.TM_VAL))
-      tab3 = 'TMTABLE , FIELDENTRY'
-      joi3 = TMTABLE.DATE = FIELDENTRY.DATE
+      val3 = ((SUM(FIELDENTRY.GL_VAL))/(TMENTRY.TM_VAL))
+      tab3 = 'TMENTRY , FIELDENTRY'
+      joi3 = TMENTRY.DATE = FIELDENTRY.DATE
       cur3.execute(f'''select {val3} from {tab3} where {joi3} DATE = {d1} ''')
 
       #[RECOVERY % TO DATE
-      val4 = ((SUM(FIELDENTRY.GL_VAL))/(sum(TMTABLE.TM_VAL))
-      tab4 = 'TMTABLE , FIELDENTRY'
-      joi4 = TMTABLE.DATE = FIELDENTRY.DATE
+      val4 = ((SUM(FIELDENTRY.GL_VAL))/(sum(TMENTRY.TM_VAL))
+      tab4 = 'TMENTRY , FIELDENTRY'
+      joi4 = TMENTRY.DATE = FIELDENTRY.DATE
       cur4.execute(f'''select {val4} from {tab4} where {joi4} DATE >= {d0} and DATE <= {d1}''')
 
 

@@ -20,51 +20,61 @@ mysql = MySQL(app)
 def displayteamade():
       cur = mysql.connection.cursor()
       cur1 = mysql.connection.cursor()
+      cur2 = mysql.connection.cursor()
+      cur3 = mysql.connection.cursor()
+
       # d1 = "'" + (str(request.args.get("start"))) + "'"
-      # d2 = "'" + (str(request.args.get("end"))) + "'"
-      # grp = "'" + (str(request.args.get("grpby"))) + "'"
+      
+      
+      d0 = "'2020-03-01" #for tea made to start date
+      d00 = "'2019-03-01'" #last year tea made start date
       d1 = "'2020-07-02'"
-      val = "FACTORYENTRY.KG_VAL "
-      tab = "FACTORYENTRY,TEATYPETAB"
-      joi = "FACTORYENTRY.TEATYPE_ID=TEATYPETAB.TEATYPE_ID"
-      cur.execute(f'''select {val} from {tab} where {joi} and FACTORYENTRY.TEATYPE_ID=3 and date = {d1} ''')
+      d11 = "'2019-07-02'" #last years end date
+
+      #[TM TODAY]
+      val = "TMTABLE.TM_VAL "
+      tab = "TMTABLE"
+      cur.execute(f'''select {val} from {tab} where date = {d1} ''')
       rv = cur.fetchall()
 
-      val1 = "sum(FACTORYENTRY.KG_VAL)"
-      tab1 = "FACTORYENTRY,TEATYPETAB"
-      joi1 = "FACTORYENTRY.TEATYPE_ID=TEATYPETAB.TEATYPE_ID"
-      cur1.execute(f'''select {val1} from {tab1} where {joi1} and FACTORYENTRY.TEATYPE_ID=3 ''')
+      #[TM TODATE]
+      val1 = "sum(TMTABLE.TM_VAL)"
+      tab1 = "TMTABLE"
+      cur1.execute(f'''select {val1} from {tab1} where DATE >= {d0} AND DATE <= {d1} ''')
       rv1 = cur1.fetchall()
-      row_headers = ['TM Today', 'TM Todate']
-      json_data = []
-      for row in rv:
-            x = row
-      for row1 in rv1:
-            y = row1
-      rv2 = x + y
-      json_data.append(dict(zip(row_headers,rv2)))
 
-      return json.dumps(json_data)
+      #[TM TODATE LAST YEAR]
+      val2 = "sum(TMTABLE.TM_VAL)"
+      tab2 = "TMTABLE"
+      cur2.execute(f'''select {val2} from {tab2} where DATE >= {d00} AND DATE <= {d1} ''')
+      rv2 = cur2.fetchall()
+
+      #[RECOVERY % TODAY
+      val3 = ((SUM(FIELDENTRY.GL_VAL))/(TMTABLE.TM_VAL))
+      tab3 = 'TMTABLE , FIELDENTRY'
+      joi3 = TMTABLE.DATE = FIELDENTRY.DATE
+      cur3.execute(f'''select {val3} from {tab3} where {joi3} DATE = {d1} ''')
+
+      #[RECOVERY % TO DATE
+      val4 = ((SUM(FIELDENTRY.GL_VAL))/(sum(TMTABLE.TM_VAL))
+      tab4 = 'TMTABLE , FIELDENTRY'
+      joi4 = TMTABLE.DATE = FIELDENTRY.DATE
+      cur4.execute(f'''select {val4} from {tab4} where {joi4} DATE >= {d0} and DATE <= {d1}''')
 
 
+      column_headers = ['TM TODAY','TM TODATE', 'TM TODATE LY', 'RECOVERY % TODAY','RECOVERY% TODATE' ]
 
+      
+      def sids_converter(o):
+            if isinstance(o, datetime.date):
+                  return str(o.year) + str("/") + str(o.month) + str("/") + str(o.day)
 
-      #rv2 = (rv + rv1)
-      #json_data.append(rv2)
-      #return json.dumps(dict(zip(row_headers,rv2)))
 
 
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-      #def sids_converter(o):
-            #if isinstance(o, datetime.date):
-                  #return str(o.year) + str("/") + str(o.month) + str("/") + str(o.day)
-
-      #for result in rv:
-            #json_data.append(dict(zip(row_headers, result)))
-      #return json.dumps(json_data, default=sids_converter)
-
+    
 
 

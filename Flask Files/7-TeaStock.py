@@ -38,7 +38,7 @@ def displayfuelreport():
 
       for result in rv:
             json_data.append(dict(zip(row_headers, result)))
-      return json.dumps(json_data, default=sids_converter)
+      return json.dumps(json_data, default=sids_converter) 
 
 
 if __name__ == "__main__":

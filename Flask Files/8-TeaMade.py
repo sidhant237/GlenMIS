@@ -30,7 +30,7 @@ def displayteamade():
 
       d0 = "'2020-03-01'"  #start date current year
       d00 = "'2019-03-01'" #start date last year
-      d1 = "'2020-07-02'" #current date
+      d1 = "'2020-07-03'" #current date
       d11 = "'2019-07-02'" #end date last year
 
       #[TM TODAY]

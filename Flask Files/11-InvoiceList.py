@@ -20,12 +20,12 @@ mysql = MySQL(app)
 def displayfuelreport():
       cur = mysql.connection.cursor()
 
-      con = "FACTORYENTRY.INV_NO, TEAGRADETAB.TEAGRADE_NAME"
-      val = "FACTORYENTRY.KG_VAL , FACTORYENTRY.PACKDATE"
-      tab = "FACTORYENTRY,TEAGRADETAB,TEATYPETAB"
-      joi = "FACTORYENTRY.TEAGRADE_ID=TEAGRADETAB.TEAGRADE_ID and FACTORYENTRY.TEATYPE_ID = TEATYPETAB.TEATYPE_ID"
-      cur.execute(f'''select {con} , {val} from {tab} where {joi} and (FACTORYENTRY.TEATYPE_ID = 1)''')
-      row_headers = ['Inv No','Grade', 'Qnty','Pack Date']
+      con = "INVOICEENTRY.INVOICE_NO, TEAGRADETAB.TEAGRADE_NAME"
+      val = "INVOICEENTRY.NET_WT , INVOICEENTRY.PAPERSACKS, INVOICEENTRY.PACKDATE,INVOICEENTRY.DISPATCHDATE"
+      tab = "INVOICEENTRY,TEAGRADETAB"
+      joi = "INVOICEENTRY.TEAGRADE_ID=TEAGRADETAB.TEAGRADE_ID"
+      cur.execute(f'''select {con} , {val} from {tab} where {joi}''')
+      row_headers = ['Inv No','Grade', 'Net Wt.','Papersacks','Packdate','Dispatch Date']
       rv = cur.fetchall()
       json_data = []
 
@@ -36,10 +36,6 @@ def displayfuelreport():
       for result in rv:
             json_data.append(dict(zip(row_headers, result)))
       return json.dumps(json_data, default=sids_converter)
-
-
-
-
 
 
 if __name__ == "__main__":

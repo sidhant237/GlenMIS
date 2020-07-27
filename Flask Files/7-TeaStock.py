@@ -23,12 +23,12 @@ def displayfuelreport():
       # d2 = "'" + (str(request.args.get("end"))) + "'"
       # grp = "'" + (str(request.args.get("grpby"))) + "'"
       d1 = "'2020-07-03'"
-      con = "TMENTRY.TM_VAL , TEAGRADETAB.TEAGRADE_NAME, SORTENTRY.SORT_KG"
-      #val = ""
-      tab = "SORTENTRY,TMENTRY,TEAGRADETAB"
-      joi = "(SORTENTRY.TM_DATE = TMENTRY.TM_DATE)and (SORTENTRY.TEAGRADE_ID = TEAGRADETAB.TEAGRADE_ID)"
-      cur.execute(f'''select SORTENTRY.TM_DATE, TMENTRY.TM_VAL , TEAGRADETAB.TEAGRADE_NAME,SORTENTRY.SORT_KG  from SORTENTRY,TMENTRY,TEAGRADETAB WHERE SORTENTRY.TEAGRADE_ID = TEAGRADETAB.TEAGRADE_ID AND SORTENTRY.TM_DATE = TMENTRY.TM_DATE AND DATE = {d1}''')
-      row_headers = ['TM Date', 'TM Val','Tea Grade','Sort Kg' ]
+
+      con = "TEAGRADETAB.TEAGRADE_NAME, STOCKENTRY.KG_VAL"
+      tab = "STOCKENTRY, TEAGRADETAB"
+      joi = "(STOCKENTRY.TEAGRADE_ID = TEAGRADETAB.TEAGRADE_ID)"
+      cur.execute(f'''select {con} from {tab} where {joi} and DATE = {d1}''')
+      row_headers = ['Grade', 'Kg' ]
       rv = cur.fetchall()
       json_data = []
 
@@ -39,10 +39,6 @@ def displayfuelreport():
       for result in rv:
             json_data.append(dict(zip(row_headers, result)))
       return json.dumps(json_data, default=sids_converter)
-
-
-
-
 
 
 if __name__ == "__main__":

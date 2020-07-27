@@ -22,9 +22,10 @@ def displaymnddeploy():
       # d1 = "'" + (str(request.args.get("start"))) + "'"
       # d2 = "'" + (str(request.args.get("end"))) + "'"
       d1 = "'2020-07-01'"
-      d2 = "'2020-07-12'"
+      d2 = "'2020-07-04'"
+
       con = "JOBTAB.JOB_NAME"
-      val = "sum(FIELDENTRY.MND_VAL)"
+      val = "SUM(FIELDENTRY.MND_VAL)"
       tab = "FIELDENTRY,JOBTAB"
       joi = "FIELDENTRY.JOB_ID=JOBTAB.JOB_ID"
       cur.execute(f'''select {con} , {val} from {tab} where {joi} and date >={d1} and date <={d2} group by FIELDENTRY.JOB_ID''')
@@ -39,9 +40,6 @@ def displaymnddeploy():
       for result in rv:
             json_data.append(dict(zip(row_headers, result)))
       return json.dumps(json_data, default=sids_converter)
-
-
-
 
 
 

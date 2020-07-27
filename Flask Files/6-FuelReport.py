@@ -19,35 +19,28 @@ mysql = MySQL(app)
 
 def displayfuelreport():
       cur = mysql.connection.cursor()
-      cursor = mysql.connection.cursor()
       # d1 = "'" + (str(request.args.get("start"))) + "'"
       # d2 = "'" + (str(request.args.get("end"))) + "'"
-      # grp = "'" + (str(request.args.get("grpby"))) + "'"
       d1 = "'2020-07-01'"
       d2 = "'2020-07-02'"
-      con = "FUELENTRY.DATE, MACHINETAB.MACH_NAME , FUELTAB.FUEL_NAME"
-      val = "FUELENTRY.FUEL_VAL"
-      tab = "FUELENTRY, MACHINETAB, FUELTAB"
-      joi = "FUELENTRY.FUEL_ID = FUELTAB.FUEL_ID and FUELENTRY.MACH_ID = MACHINETAB.MACH_ID"
-      cur.execute(f'''select {con} , {val} from {tab} where {joi} and date >= {d1} and date <= {d2}''')
-      rv = cur.fetchone()
 
-      cursor.execute("select sum(FUELENTRY.FUEL_VAL) from FUELENTRY")
-      rv1 = cursor.fetchone()
+      con = " MACHINETAB.MACH_NAME"
+      fom = " sum(FUELENTRY.FUEL_VAL), sum(TM_VAL), ROUND((SUM(TM_VAL)/sum(FUELENTRY.FUEL_VAL)),2)"
+      tab = "FUELENTRY, MACHINETAB, FUELTAB, TMENTRY"
+      joi = "FUELENTRY.FUEL_ID = FUELTAB.FUEL_ID AND FUELENTRY.MACH_ID = MACHINETAB.MACH_ID AND TMENTRY.TM_DATE = FUELENTRY.DATE"
+      cur.execute(f'''select {con} , {fom}  from {tab} where {joi} and date >= {d1} and date <= {d2} group by MACHINETAB.MACH_NAME''')
+      rv = cur.fetchall()
 
-      row_headers = ['Date', 'Machine', 'Fuel', 'Qnty', 'sumfuel']
+      row_headers = ['Machine', 'Fuel Used' , 'TM', 'TM/Fuel']
       json_data = []
-
-
 
       def sids_converter(o):
             if isinstance(o, datetime.date):
                   return str(o.year) + str("/") + str(o.month) + str("/") + str(o.day)
 
-      #for row in rv:
-      json_data.append(dict(rv))
+      for row in rv:
+          json_data.append(dict(zip(row_headers,row)))
       return json.dumps(json_data, default=sids_converter)
-
 
 
 

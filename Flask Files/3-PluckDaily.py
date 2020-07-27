@@ -20,20 +20,20 @@ mysql = MySQL(app)
 def displaypluckdaily():
       cur = mysql.connection.cursor()
       d1 = "'2020-07-01'"
-      d2 = "'2020-07-01'"
+      d2 = "'2020-07-02'"
       #d1 = "'" + (str(request.args.get("start"))) + "'"
       #d2 = "'" + (str(request.args.get("end"))) + "'"
-      # d2 = "'" + (request.args.get('end')) + "'"
+
       con = "fieldentry.date,SECTAB.SEC_NAME,SQUTAB.SQU_NAME"
       val = "FIELDENTRY.MND_VAL, FIELDENTRY.GL_VAL, FIELDENTRY.AREA_VAL"
-      fom = "(GL_VAL/MND_VAL), (GL_VAL/AREA_VAL),(MND_VAL/AREA_VAL)"
+      fom = "ROUND((GL_VAL/MND_VAL),2), ROUND((GL_VAL/AREA_VAL),2),ROUND((MND_VAL/AREA_VAL),2)"
       con2 = "DIVTAB.DIV_NAME, SECTAB.SEC_PRUNE , SECTAB.SEC_JAT, SECTAB.SEC_AREA"
       tab = "FIELDENTRY,SQUTAB,JOBTAB,SECTAB,DIVTAB"
       joi = "FIELDENTRY.SQU_ID = SQUTAB.SQU_ID AND FIELDENTRY.JOB_ID=JOBTAB.JOB_ID AND FIELDENTRY.SEC_ID=SECTAB.SEC_ID AND DIVTAB.DIV_ID=SECTAB.DIV_ID"
       job = "(FIELDENTRY.JOB_ID = 1 )"
       cur.execute(f'''select {con} , {val} , {fom} , {con2} from {tab} where {joi} and date >={d1} and date <={d2} and {job}''')
 
-      row_headers = ['Date', 'Section_Name', 'Squad_Name', 'Mandays', 'Greenleaf', 'AreaCovered', 'GL/MND', 'GL/Ha', 'Mnd/Ha','Division','Prune','Jat', "Sec Area"]
+      row_headers = ['Date', 'Section_Name', 'Squad_Name', 'Mandays', 'Greenleaf', 'AreaCovered', 'Gl/Mnd', 'Gl/Ha', 'Mnd/Ha','Division','Prune','Jat', "Sec Area"]
       rv = cur.fetchall()
       json_data = []
 
@@ -44,7 +44,6 @@ def displaypluckdaily():
       for result in rv:
             json_data.append(dict(zip(row_headers , result)))
       return json.dumps(json_data, default=sids_converter)
-
 
 
 if __name__ == "__main__":

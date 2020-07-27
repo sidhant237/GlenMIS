@@ -23,56 +23,43 @@ def displaypluckgroup():
       #d2 = "'" + (str(request.args.get("end"))) + "'"
       #grp = "'" + (str(request.args.get("grpby"))) + "'"
       d1 = "'2020-07-01'"
-      d2 = "'2020-07-03'"
-      #grp = "Section"
+      d2 = "'2020-07-02'"
       grp = "Squad"
-      #grp = "Squad"
 
       if grp == 'Section':
             con = "SECTAB.SEC_NAME"
             val = "sum(FIELDENTRY.MND_VAL), sum(FIELDENTRY.GL_VAL), sum(FIELDENTRY.AREA_VAL)"
-            fom = "(sum(GL_VAL)/sum(MND_VAL)), (sum(GL_VAL)/sum(AREA_VAL)),(sum(MND_VAL)/sum(AREA_VAL))"
-            #con2 = "DIVTAB.DIV_NAME, SECTAB.SEC_PRUNE , SECTAB.SEC_JAT"
+            fom = "ROUND((sum(GL_VAL)/sum(MND_VAL)),2), ROUND((sum(GL_VAL)/sum(AREA_VAL)),2),ROUND((sum(MND_VAL)/sum(AREA_VAL)),2)"
             tab = "FIELDENTRY,SQUTAB,JOBTAB,SECTAB,DIVTAB"
             joi = "FIELDENTRY.SQU_ID = SQUTAB.SQU_ID AND FIELDENTRY.JOB_ID=JOBTAB.JOB_ID AND FIELDENTRY.SEC_ID=SECTAB.SEC_ID AND DIVTAB.DIV_ID=SECTAB.DIV_ID"
             job = "(FIELDENTRY.JOB_ID = 1 )"
-            cur.execute(f'''select {con} , {val} , {fom} from {tab} where {joi} and date >={d1} and date <={d2} and {job} group by fieldentry.sec_id''')
-
+            cur.execute(f'''select {con} , {val} , {fom} from {tab} where {joi} and date >={d1} and date <={d2} and {job} ''')
             row_headers = ['Section_Name', 'Mandays', 'Greenleaf', 'AreaCovered', 'GL/Mnd', 'GL/Area', 'Mnd/Area']
             rv = cur.fetchall()
-
 
       if grp == 'Division':
             con = "DIVTAB.DIV_NAME"
             val = "sum(FIELDENTRY.MND_VAL), sum(FIELDENTRY.GL_VAL), sum(FIELDENTRY.AREA_VAL)"
-            fom = "(sum(GL_VAL)/sum(MND_VAL)), (sum(GL_VAL)/sum(AREA_VAL)),(sum(MND_VAL)/sum(AREA_VAL))"
+            fom = "ROUND((SUM(GL_VAL)/SUM(MND_VAL)),2), ROUND((sum(GL_VAL)/sum(AREA_VAL)),2),ROUND((SUM(MND_VAL)/SUM(AREA_VAL)),2)"
             # con2 = "DIVTAB.DIV_NAME, SECTAB.SEC_PRUNE , SECTAB.SEC_JAT"
             tab = "FIELDENTRY,SQUTAB,JOBTAB,SECTAB,DIVTAB"
             joi = "FIELDENTRY.SQU_ID = SQUTAB.SQU_ID AND FIELDENTRY.JOB_ID=JOBTAB.JOB_ID AND FIELDENTRY.SEC_ID=SECTAB.SEC_ID AND DIVTAB.DIV_ID=SECTAB.DIV_ID"
             job = "(FIELDENTRY.JOB_ID = 1 )"
             cur.execute(f'''select {con} , {val} , {fom} from {tab} where {joi} and date >={d1} and date <={d2} and {job} group by SECTAB.DIV_ID''')
-
             row_headers = ['Division', 'Mandays', 'Greenleaf', 'AreaCovered', 'GL/Mnd', 'GL/Area', 'Mnd/Area']
             rv = cur.fetchall()
-
 
       if grp == 'Squad':
             con = "SQUTAB.SQU_NAME"
             val = "sum(FIELDENTRY.MND_VAL), sum(FIELDENTRY.GL_VAL), sum(FIELDENTRY.AREA_VAL)"
-            fom = "(sum(GL_VAL)/sum(MND_VAL)), (sum(GL_VAL)/sum(AREA_VAL)),(sum(MND_VAL)/sum(AREA_VAL))"
-            # con2 = "DIVTAB.DIV_NAME, SECTAB.SEC_PRUNE , SECTAB.SEC_JAT"
+            fom = "ROUND((sum(GL_VAL)/sum(MND_VAL)),2), ROUND((sum(GL_VAL)/sum(AREA_VAL)),2),ROUND((sum(MND_VAL)/sum(AREA_VAL)),2)"
             tab = "FIELDENTRY,SQUTAB,JOBTAB,SECTAB,DIVTAB"
             joi = "FIELDENTRY.SQU_ID = SQUTAB.SQU_ID AND FIELDENTRY.JOB_ID=JOBTAB.JOB_ID AND FIELDENTRY.SEC_ID=SECTAB.SEC_ID AND DIVTAB.DIV_ID=SECTAB.DIV_ID"
             job = "(FIELDENTRY.JOB_ID = 1 )"
-            cur.execute(f'''select {con} , {val} , {fom} from {tab} where {joi} and date >={d1} and date <={d2} and {job} group by SQUTAB.SQU_ID''')
+            cur.execute(f'''select {con} , {val} , {fom} from {tab} where {joi} and date >={d1} and date <={d2} and {job} group by SQUTAB.SQU_ID order by SQUTAB.SQU_NAME asc''')
 
             row_headers = ['Squad', 'Mandays', 'Greenleaf', 'AreaCovered', 'GL/Mnd', 'GL/Area', 'Mnd/Area']
             rv = cur.fetchall()
-
-
-
-
-
 
       json_data = []
       def sids_converter(o):

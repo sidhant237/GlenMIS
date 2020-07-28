@@ -70,7 +70,7 @@ def displayteamade():
             if isinstance(o, datetime.date):
                   return str(o.year) + str("/") + str(o.month) + str("/") + str(o.day)
 
-      column_headers = ['TM TODAY', 'TM TODATE', 'TM TODATE LY', 'RECOVERY % TODAY', 'RECOVERY% TODATE']
+      column_headers = ['TM Today', 'TM Todate', 'TM Todate LY', 'Recovery % Today', 'Recovery% Todate']
       json_data=[]
       json_data.append(dict(zip(column_headers, rv)))
       return json.dumps(json_data, default=sids_converter)

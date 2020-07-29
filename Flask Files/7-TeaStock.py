@@ -20,8 +20,6 @@ mysql = MySQL(app)
 def displayfuelreport():
       cur = mysql.connection.cursor()
       # d1 = "'" + (str(request.args.get("start"))) + "'"
-      # d2 = "'" + (str(request.args.get("end"))) + "'"
-      # grp = "'" + (str(request.args.get("grpby"))) + "'"
       d1 = "'2020-07-03'"
 
       con = "TEAGRADETAB.TEAGRADE_NAME, STOCKENTRY.KG_VAL"

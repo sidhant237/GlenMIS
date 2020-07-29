@@ -19,13 +19,12 @@ app.config['MYSQL_DB'] = "GlenDB"
 
 def displaycultdaily():
       cur = mysql.connection.cursor()
-      cursor = mysql.connection.cursor()
       d1 = "'2020-07-01'"
-      d2 = "'2020-07-02'"
+      d2 = "'2020-07-14'"
       #d1 = "'" + (str(request.args.get("start"))) + "'"
       #d2 = "'" + (str(request.args.get("end"))) + "'"
 
-      con = "FIELDENTRY.field_id, JOBTAB.JOB_NAME, SECTAB.SEC_NAME, SQUTAB.SQU_NAME"
+      con = "FIELDENTRY.DATE, JOBTAB.JOB_NAME, SECTAB.SEC_NAME, SQUTAB.SQU_NAME"
       val = "MND_VAL, AREA_VAL"
       fom = "ROUND((MND_VAL/AREA_VAL),2)"
       con2 = "DIVTAB.DIV_NAME"
@@ -33,7 +32,6 @@ def displaycultdaily():
       joi = "FIELDENTRY.SQU_ID = SQUTAB.SQU_ID AND FIELDENTRY.JOB_ID=JOBTAB.JOB_ID AND FIELDENTRY.SEC_ID=SECTAB.SEC_ID AND DIVTAB.DIV_ID=SECTAB.DIV_ID"
       job = "(FIELDENTRY.JOB_ID = 2 or FIELDENTRY.JOB_ID = 3 or FIELDENTRY.JOB_ID = 4)"
       cur.execute(f'''select {con} , {val} , {fom} , {con2} from {tab} where {joi} and date >={d1} and date <={d2} and {job}''')
-      cursor.execute(f'''select {con} , {val} , {fom} , {con2} from {tab} where {joi} and date >={d1} and date <={d2} and {job}''')
       rv = cur.fetchall()
 
       row_headers = ['Date', 'Job_Name', 'Section_Name', 'Squad_Name', 'Mandays', 'AreaCovered', 'Mnd/Area', 'Division']

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 import json, datetime
 from flask_cors import CORS, cross_origin
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'

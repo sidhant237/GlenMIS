@@ -1,0 +1,63 @@
+<div class="example-container heading-wrap">
+  <h3>Invoice Reports</h3>
+  <div class="control-wrap">
+    <div class="datepicker-control">
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [value]="startdate" disabled
+          (dateChange)="dateChange('startdate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker2" placeholder="End Date" [value]="enddate" disabled
+          (dateChange)="dateChange('enddate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="accent" (click)="clickedGo()">Go</button>
+  </div>
+</div>
+  
+<div class="example-container mat-elevation-z8 col-5">
+    <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="InvNo">
+        <th mat-header-cell *matHeaderCellDef> InvNo </th>
+        <td mat-cell *matCellDef="let element"> {{element.InvNo}} </td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Grade">
+        <th mat-header-cell *matHeaderCellDef> Grade </th>
+        <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="NetWt">
+        <th mat-header-cell *matHeaderCellDef> Net Wt </th>
+        <td mat-cell *matCellDef="let element"> {{element.NetWt}} </td>
+        <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','NetWt') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Papersacks">
+        <th mat-header-cell *matHeaderCellDef> Paper Sacks </th>
+        <td mat-cell *matCellDef="let element"> {{element.Papersacks}} </td>
+        <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','Papersacks') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Packdate">
+        <th mat-header-cell *matHeaderCellDef> Packdate </th>
+        <td mat-cell *matCellDef="let element"> {{element.Packdate}} </td>
+        <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- header -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <!-- data -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- footer -->
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+</div>

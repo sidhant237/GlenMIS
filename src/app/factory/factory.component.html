@@ -1,0 +1,127 @@
+<mat-grid-list cols="3" rowHeight="90px" class="example-container col-5">
+    <mat-grid-tile [colspan]="stackGrid ? 3: 1">
+      <h3>Factory reports</h3>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="stackGrid ? 3: 2">
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [value]="date" disabled
+          (dateChange)="dateChange('startdate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+  
+      <button mat-raised-button color="accent" (click)="clickedGo()">Go</button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+
+<h3 class="table-heading">Tea Made</h3>
+<div class="example-container mat-elevation-z8 col-5">
+    <table mat-table [dataSource]="teaMadeData">
+
+        <ng-container matColumnDef="TMToday">
+            <th mat-header-cell *matHeaderCellDef> TM Today </th>
+            <td mat-cell *matCellDef="let element"> {{element.TMToday}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('teaMadeData','TMToday') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="TMTodate">
+            <th mat-header-cell *matHeaderCellDef> TM Todate </th>
+            <td mat-cell *matCellDef="let element"> {{element.TMTodate}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('teaMadeData','TMTodate') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="TMTodateLY">
+            <th mat-header-cell *matHeaderCellDef> TM Todate LY </th>
+            <td mat-cell *matCellDef="let element"> {{element.TMTodateLY}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('teaMadeData','TMTodateLY') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="RecoveryToday">
+            <th mat-header-cell *matHeaderCellDef> Recovery % Today </th>
+            <td mat-cell *matCellDef="let element"> {{element.RecoveryToday}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('teaMadeData','RecoveryToday') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="RecoveryTodate">
+            <th mat-header-cell *matHeaderCellDef> Recovery % Todate </th>
+            <td mat-cell *matCellDef="let element"> {{element.RecoveryTodate}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('teaMadeData','RecoveryTodate') | number}}</td>
+        </ng-container>
+
+        <!-- header -->
+        <tr mat-header-row *matHeaderRowDef="teaMadeColumns; sticky: true"></tr>
+        <!-- data -->
+        <tr mat-row *matRowDef="let row; columns: teaMadeColumns;"></tr>
+        <!-- footer -->
+        <tr mat-footer-row *matFooterRowDef="teaMadeColumns; sticky: true"></tr>
+    </table>
+</div>
+
+<h3 class="table-heading">Green Leaf Data</h3>
+<div class="example-container mat-elevation-z8 col-5">
+    <table mat-table [dataSource]="greenleafData">
+
+        <ng-container matColumnDef="Division">
+            <th mat-header-cell *matHeaderCellDef> Division </th>
+            <td mat-cell *matCellDef="let element"> {{element.Division}} </td>
+            <td mat-footer-cell *matFooterCellDef>Total</td>
+        </ng-container>
+
+        <ng-container matColumnDef="GLToday">
+            <th mat-header-cell *matHeaderCellDef> GL Today </th>
+            <td mat-cell *matCellDef="let element"> {{element.GLToday}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('greenleafData','GLToday') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="GLTodayLY">
+            <th mat-header-cell *matHeaderCellDef> GL Today LY </th>
+            <td mat-cell *matCellDef="let element"> {{element.GLTodayLY}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('greenleafData','GLTodayLY') | number}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="FineLeaf">
+            <th mat-header-cell *matHeaderCellDef> Fine Leaf % </th>
+            <td mat-cell *matCellDef="let element"> {{element.FineLeaf}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{getTotal('greenleafData','FineLeaf') | number}}</td>
+        </ng-container>
+
+        <!-- header -->
+        <tr mat-header-row *matHeaderRowDef="greenLeafColumns; sticky: true"></tr>
+        <!-- data -->
+        <tr mat-row *matRowDef="let row; columns: greenLeafColumns;"></tr>
+        <!-- footer -->
+        <tr mat-footer-row *matFooterRowDef="greenLeafColumns; sticky: true"></tr>
+    </table>
+</div>
+
+<h3 class="table-heading">Grade Per Data</h3>
+<div class="example-container mat-elevation-z8 col-5">
+    <table mat-table [dataSource]="gradePerData">
+
+        <ng-container matColumnDef="Grade">
+            <th mat-header-cell *matHeaderCellDef> Grade </th>
+            <td mat-cell *matCellDef="let element"> {{element.Grade}} </td>
+            <td mat-footer-cell *matFooterCellDef>Total</td>
+        </ng-container>
+
+        <ng-container matColumnDef="PercentToday">
+            <th mat-header-cell *matHeaderCellDef> Percent % Today </th>
+            <td mat-cell *matCellDef="let element"> {{element.PercentToday | number: '1.2-2' }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <ng-container matColumnDef="PercentTodate">
+            <th mat-header-cell *matHeaderCellDef> Percent % Todate </th>
+            <td mat-cell *matCellDef="let element"> {{element.PercentTodate | number: '1.2-2' }} </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <!-- header -->
+        <tr mat-header-row *matHeaderRowDef="GradePerColumns; sticky: true"></tr>
+        <!-- data -->
+        <tr mat-row *matRowDef="let row; columns: GradePerColumns;"></tr>
+        <!-- footer -->
+        <tr mat-footer-row *matFooterRowDef="GradePerColumns; sticky: true"></tr>
+    </table>
+</div>

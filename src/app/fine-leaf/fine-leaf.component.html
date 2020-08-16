@@ -1,0 +1,117 @@
+<div class="example-container heading-wrap">
+  <h3>Green Leaf Reports</h3>
+  <div class="control-wrap">
+    <div class="datepicker-control">
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [value]="startdate" disabled
+          (dateChange)="dateChange('startdate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker2" placeholder="End Date" [value]="enddate" disabled
+          (dateChange)="dateChange('enddate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="accent" (click)="clickedGo()">Go</button>
+  </div>
+</div>
+  
+<div class="example-container mat-elevation-z8 col-5">
+  <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="Division">
+          <th mat-header-cell *matHeaderCellDef> Division </th>
+          <td mat-cell *matCellDef="let element"> {{element.Division}} </td>
+          <td mat-footer-cell *matFooterCellDef>Total</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="GLToday">
+          <th mat-header-cell *matHeaderCellDef> GL Today </th>
+          <td mat-cell *matCellDef="let element"> {{element.GLToday}} </td>
+          <td mat-footer-cell *matFooterCellDef>{{ getTotal('dataSource','GLToday') | number }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="GLTodayLY">
+          <th mat-header-cell *matHeaderCellDef> GL Today LY </th>
+          <td mat-cell *matCellDef="let element"> {{element.GLTodayLY}} </td>
+          <td mat-footer-cell *matFooterCellDef>{{ getTotal('dataSource','GLTodayLY') | number }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="FineLeaf">
+          <th mat-header-cell *matHeaderCellDef> Fine Leaf </th>
+          <td mat-cell *matCellDef="let element"> {{element.FineLeaf}} </td>
+          <td mat-footer-cell *matFooterCellDef>{{ getTotal('dataSource','FineLeaf') | number }}</td>
+      </ng-container>
+
+    <!-- header -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <!-- data -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <!-- footer -->
+    <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+  </table>
+</div>
+
+<!-- Compare section -->
+<div class="example-container heading-wrap">
+  <h3>Comparision table</h3>
+  <div class="control-wrap">
+    <div class="datepicker-control">
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker3" placeholder="Start Date" [value]="startdateCmp" disabled
+          (dateChange)="dateChange('startdateCmp', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+        <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker4" placeholder="End Date" [value]="enddateCmp" disabled
+          (dateChange)="dateChange('enddateCmp', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+        <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="accent" (click)="clickedGoCompare()">Compare</button>
+  </div>
+</div>
+
+<div class="example-container mat-elevation-z8 col-5">
+    <table mat-table [dataSource]="dataSourceCmp">
+
+        <ng-container matColumnDef="Division">
+            <th mat-header-cell *matHeaderCellDef> Division </th>
+            <td mat-cell *matCellDef="let element"> {{element.Division}} </td>
+            <td mat-footer-cell *matFooterCellDef>Total</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="GLToday">
+            <th mat-header-cell *matHeaderCellDef> GL Today </th>
+            <td mat-cell *matCellDef="let element"> {{element.GLToday}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{ getTotal('dataSourceCmp','GLToday') | number }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="GLTodayLY">
+            <th mat-header-cell *matHeaderCellDef> GL Today LY </th>
+            <td mat-cell *matCellDef="let element"> {{element.GLTodayLY}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{ getTotal('dataSourceCmp','GLTodayLY') | number }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="FineLeaf">
+            <th mat-header-cell *matHeaderCellDef> Fine Leaf </th>
+            <td mat-cell *matCellDef="let element"> {{element.FineLeaf}} </td>
+            <td mat-footer-cell *matFooterCellDef>{{ getTotal('dataSourceCmp','FineLeaf') | number }}</td>
+        </ng-container>
+
+        <!-- header -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <!-- data -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- footer -->
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+</div>
+

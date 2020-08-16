@@ -1,0 +1,95 @@
+<mat-grid-list cols="2" rowHeight="50px">
+  <mat-grid-tile colspan="2">
+    <h1>Mnd Deployment</h1>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<div class="container">
+  <div class="example-container">
+    <h3>Report</h3>
+    <div class="control-wrap">
+      <div class="date-picker">
+        <mat-form-field style="width: 100px !important;">
+          <input matInput [matDatepicker]="picker1" placeholder="Start Date" [value]="startdate" disabled
+            (dateChange)="dateChange('startdate', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field style="width: 100px !important;">
+          <input matInput [matDatepicker]="picker2" placeholder="End Date" [value]="enddate" disabled
+            (dateChange)="dateChange('enddate', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="accent" (click)="clickedGo()">Go</button>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="Job_Name" >
+        <th mat-header-cell *matHeaderCellDef> Job Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.Job_Name}} </td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="Mandays">
+        <th mat-header-cell *matHeaderCellDef> Mandays </th>
+        <td mat-cell *matCellDef="let element"> {{element.Mandays}} </td>
+        <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','Mandays') | number}}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns;"></tr>
+
+    </table>
+  </div>
+
+
+  <div class="example-container">
+    <h3>Compare</h3>
+    <div class="control-wrap">
+      <div class="date-picker">
+        <mat-form-field style="width: 100px !important;">
+          <input matInput [matDatepicker]="picker3" placeholder="Start Date" [value]="startdateCmp" disabled
+            (dateChange)="dateChange('startdateCmp', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+          <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field style="width: 100px !important;"> 
+          <input matInput [matDatepicker]="picker4" placeholder="End Date" [value]="enddateCmp" disabled
+            (dateChange)="dateChange('enddateCmp', $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <button mat-raised-button color="accent" (click)="clickedGoCompare()">Compare</button>
+    </div>
+
+    <table mat-table [dataSource]="dataSourceCmp" class="mat-elevation-z8">
+    
+        <!-- Position Column -->
+        <ng-container matColumnDef="Job_Name">
+        <th mat-header-cell *matHeaderCellDef>Job Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.Job_Name}} </td>
+        <td mat-footer-cell *matFooterCellDef>Total</td>
+        </ng-container>
+    
+        <!-- Name Column -->
+        <ng-container matColumnDef="Mandays">
+        <th mat-header-cell *matHeaderCellDef> Mandays </th>
+        <td mat-cell *matCellDef="let element"> {{element.Mandays}} </td>
+        <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','Mandays') | number}}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    </table>
+  </div>
+</div>
+

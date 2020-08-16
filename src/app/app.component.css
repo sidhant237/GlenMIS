@@ -1,0 +1,44 @@
+.mat-drawer-container {
+    height: 92vh;
+}
+
+.toolbar-heading a {
+    text-decoration: none;
+    color: white;
+}
+
+.mat-drawer {
+    background-color: #70a452;
+} 
+
+.mat-drawer-side {
+    border-right: none;
+}
+
+.mat-nav-list {
+    width: 100%;
+    background-color: #70a452;
+}
+
+.mat-toolbar-row {
+    text-align: center;
+}
+
+.mat-list-base {
+    padding: 0 !important;
+}
+
+.mat-list-item {
+    color: white;
+    font-weight: bolder;
+}
+
+.mat-list-item:hover {
+    background-color: white;
+    color: #70a452;
+}
+
+.mat-list-item.active {
+    background-color: white;
+    color: #4caf50;
+} 

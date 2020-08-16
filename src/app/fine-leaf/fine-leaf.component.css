@@ -1,0 +1,78 @@
+mat-form-field, button {
+  margin: 10px;
+}
+
+.example-container {
+max-height: 350px;
+overflow: auto;
+max-width: 90%;
+margin: auto;
+margin-bottom: 20px;
+}
+
+.heading-wrap {
+width: 65%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.col-5 {
+  width: 65%;
+}
+
+.control-wrap {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.datepicker-control {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+table {
+width: 100%;
+text-align: initial;
+}
+
+th {
+font-weight: bold;
+color: black;
+background-color: #c0c0c0;
+}
+
+tr.mat-footer-row {
+font-weight: bold;
+}
+
+.mat-table-sticky {
+background-color: #c0c0c0;
+border-top: 1px solid #e0e0e0;
+}
+
+@media(max-width: 700px) {
+
+  .col-5 {
+    width: 100%;
+  }
+  
+  .control-wrap {
+    flex-direction: column;
+  }
+
+  .datepicker-control {
+    flex-direction: column;
+  }
+
+  .heading-wrap {
+    flex-direction: column;
+  }
+
+  table {
+    min-width: 500px;
+  }
+
+}

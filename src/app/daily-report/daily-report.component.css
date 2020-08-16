@@ -1,0 +1,53 @@
+mat-form-field, button {
+    margin: 10px;
+}
+
+.example-container {
+  max-height: 350px;
+  overflow: auto;
+  max-width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.col-5{
+  width: 65%;
+}
+
+.col-10 {
+  min-width: 850px;
+}
+
+.table-heading {
+  text-align: center !important;
+}
+
+table {
+  width: 100%;
+  text-align: initial;
+  overflow: scroll;
+}
+
+th {
+  font-weight: bold;
+  color: black;
+  background-color: #c0c0c0;
+}
+
+.mat-form-field {
+  width: 130px !important;
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+.mat-table-sticky {
+  border-top: 1px solid #e0e0e0;
+  background-color: #c0c0c0;
+}
+@media(max-width: 700px) {
+  .col-5 {
+    width: 100%;
+  }
+}

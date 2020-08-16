@@ -1,0 +1,179 @@
+<div class="heading-wrap">
+  <div class="header">
+      <h3>Plucking Group Reports</h3>
+  </div>
+  <div class="control-wrap">
+    <div class="datepicker-control">
+      <mat-form-field appearance="fill">
+          <mat-label>Select a group</mat-label>
+          <mat-select [(value)]="selected">
+            <mat-option>None</mat-option>
+            <mat-option value="Section">Section</mat-option>
+            <mat-option value="Division">Division</mat-option>
+            <mat-option value="Squad">Squad</mat-option>
+          </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker1" placeholder="Start Date" [value]="startdate" disabled
+          (dateChange)="dateChange('startdate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker2" placeholder="End Date" [value]="enddate" disabled
+          (dateChange)="dateChange('enddate', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="accent" (click)="clickedGo()">Go</button>
+  </div>
+</div>
+  
+<div class="example-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+  
+  <ng-container [matColumnDef]="group === 'Section' ? 'Section_Name' : group === 'Division' ? 'Division' : 'Squad' ">
+    <th mat-header-cell *matHeaderCellDef> {{ group === 'Section' ? 'Section Name' : group === 'Division' ? 'Division' : 'Squad' }}</th>
+    <td mat-cell *matCellDef="let element"> {{ group === 'Section' ? element.Section_Name : group === 'Division' ? element.Division : element.Squad }} </td>
+    <td mat-footer-cell *matFooterCellDef>Total</td>
+  </ng-container>
+
+
+    <ng-container matColumnDef="Mandays">
+      <th mat-header-cell *matHeaderCellDef> Mandays </th>
+      <td mat-cell *matCellDef="let element"> {{element.Mandays}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','Mandays') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Greenleaf">
+      <th mat-header-cell *matHeaderCellDef> Greenleaf </th>
+      <td mat-cell *matCellDef="let element"> {{ element.Greenleaf | number: '1.2-2' }} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','Greenleaf') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="AreaCovered">
+      <th mat-header-cell *matHeaderCellDef> Area Covered </th>
+      <td mat-cell *matCellDef="let element"> {{element.AreaCovered}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','AreaCovered') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="GLMnd">
+      <th mat-header-cell *matHeaderCellDef> GL Mnd </th>
+      <td mat-cell *matCellDef="let element"> {{element.GLMnd}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','GLMnd') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="GLArea">
+      <th mat-header-cell *matHeaderCellDef> GL Area </th>
+      <td mat-cell *matCellDef="let element"> {{element.GLArea}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','GLArea') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="MndArea">
+      <th mat-header-cell *matHeaderCellDef> Mnd Area </th>
+      <td mat-cell *matCellDef="let element"> {{element.MndArea}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSource','MndArea') | number}}</td>
+    </ng-container>
+
+    <!-- header -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <!-- data -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <!-- footer -->
+    <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+  </table>
+</div>
+  
+  
+<!-- Compare section -->
+<div class="heading-wrap">
+  <div class="header">
+    <h3>Comparision table</h3>
+  </div>
+  <div class="control-wrap">
+    <div class="datepicker-control">
+      <mat-form-field appearance="fill">
+        <mat-label>Select a group</mat-label>
+        <mat-select [(value)]="selectedCmp">
+          <mat-option>None</mat-option>
+          <mat-option value="Section">Section</mat-option>
+          <mat-option value="Division">Division</mat-option>
+          <mat-option value="Squad">Squad</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker3" placeholder="Start Date" [value]="startdateCmp" disabled
+          (dateChange)="dateChange('startdateCmp', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+        <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100px !important;">
+        <input matInput [matDatepicker]="picker4" placeholder="End Date" [value]="enddateCmp" disabled
+          (dateChange)="dateChange('enddateCmp', $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+        <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="accent" (click)="clickedGoCompare()">Compare</button>
+  </div>
+</div>
+
+  
+<div class="example-container mat-elevation-z8">
+  <table mat-table [dataSource]="dataSourceCmp">
+
+    <ng-container [matColumnDef]="groupCmp === 'Section' ? 'Section_Name' : groupCmp === 'Division' ? 'Division' : 'Squad' ">
+      <th mat-header-cell *matHeaderCellDef> {{ groupCmp === 'Section' ? 'Section Name' : groupCmp === 'Division' ? 'Division' : 'Squad' }}</th>
+      <td mat-cell *matCellDef="let element"> {{ groupCmp === 'Section' ? element.Section_Name : groupCmp === 'Division' ? element.Division : element.Squad }} </td>
+      <td mat-footer-cell *matFooterCellDef>Total</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="Mandays">
+      <th mat-header-cell *matHeaderCellDef> Mandays </th>
+      <td mat-cell *matCellDef="let element"> {{element.Mandays}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','Mandays') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Greenleaf">
+      <th mat-header-cell *matHeaderCellDef> Greenleaf </th>
+      <td mat-cell *matCellDef="let element"> {{ element.Greenleaf | number: '1.2-2' }} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','Greenleaf') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="AreaCovered">
+      <th mat-header-cell *matHeaderCellDef> Area Covered </th>
+      <td mat-cell *matCellDef="let element"> {{element.AreaCovered}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','AreaCovered') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="GLMnd">
+      <th mat-header-cell *matHeaderCellDef> GL Mnd </th>
+      <td mat-cell *matCellDef="let element"> {{element.GLMnd}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','GLMnd') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="GLArea">
+      <th mat-header-cell *matHeaderCellDef> GL Area </th>
+      <td mat-cell *matCellDef="let element"> {{element.GLArea}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','GLArea') | number}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="MndArea">
+      <th mat-header-cell *matHeaderCellDef> Mnd Area </th>
+      <td mat-cell *matCellDef="let element"> {{element.MndArea}} </td>
+      <td mat-footer-cell *matFooterCellDef>{{getTotal('dataSourceCmp','MndArea') | number}}</td>
+    </ng-container>
+
+    <!-- header -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsCmp; sticky: true"></tr>
+    <!-- data -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumnsCmp;"></tr>
+    <!-- footer -->
+    <tr mat-footer-row *matFooterRowDef="displayedColumnsCmp; sticky: true"></tr>
+  </table>
+</div>
